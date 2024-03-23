@@ -1,10 +1,10 @@
 import { Platform, StyleSheet, Text, View } from 'react-native'
-import React, { useContext } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { CartContext } from '@/provider/CartProvider'
+import { useCart } from '@/provider/CartProvider';
+
 
 const CartScreen = () => {
-  const { items} = useContext(CartContext)
+  const { items} = useCart();
   return (
     <View>
       <Text>Cart items length: {items.length}</Text>
