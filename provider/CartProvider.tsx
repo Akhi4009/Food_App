@@ -17,7 +17,14 @@ const CartProvider = ({children}:{children:ReactNode}) => {
     const [items, setItems] = useState<CartItem[]>([])
 
     const addItem = (product:Product, size: CartItem['size']) => {
-        console.log(product);
+        const newCartItem = {
+            id:'1',
+            product,
+            product_id:product.id,
+            size,
+            quantity:1,
+        }
+        setItems([newCartItem,...items]);
     }
     return(
         <CartContext.Provider 

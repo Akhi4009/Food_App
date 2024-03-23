@@ -3,7 +3,7 @@ import Colors from '@/constants/Colors';
 import { Product } from '@/types';
 import { Link } from 'expo-router';
 
-const defauPizzImage = "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png"
+export const defauPizzImage = "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png"
 
 
 const ProductListItem = ({product}:{product:Product}) => {
