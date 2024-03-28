@@ -1,16 +1,34 @@
 import Button from '@/components/Button'
 import React, { useState } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import * as ImagePicker from 'expo-image-picker';
+import { defauPizzImage } from '@/components/ProductListItem';
+import Colors from '@/constants/Colors';
 
 function CreateProductScreen() {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [error, setError] = useState('');
+  const [image, setImage] = useState<string | null>(null);
 
   const resetFields = () => {
     setName('');
     setPrice('');
   }
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const validateInput = () => {
     setError('');
@@ -36,8 +54,13 @@ function CreateProductScreen() {
     console.warn('Creating Product',name,price);
     resetFields();
   };
+  
+  
   return (
     <View style={styles.container}>
+    
+      <Image source={{ uri: image || defauPizzImage }} style={styles.image}  />
+      <Text style={styles.textButton} onPress={pickImage}>Select Image</Text>
     <Text style={styles.label}>Name</Text>
     <TextInput
      placeholder='Name' 
@@ -75,6 +98,17 @@ const styles = StyleSheet.create({
       marginTop:5,
       marginBottom:20
 
+    },
+    image:{
+      width:'50%',
+      aspectRatio:1,
+      alignSelf:'center',
+    },
+    textButton:{
+      alignSelf:'center',
+      fontWeight:'bold',
+      color:Colors.light.tint,
+      marginVertical:10
     }
 })
 
