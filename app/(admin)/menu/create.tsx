@@ -4,13 +4,16 @@ import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import { defauPizzImage } from '@/components/ProductListItem';
 import Colors from '@/constants/Colors';
-import { Stack } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 
 function CreateProductScreen() {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [error, setError] = useState('');
   const [image, setImage] = useState<string | null>(null);
+  const {id} = useLocalSearchParams();
+
+  const isUpdating = !!id;
 
   const resetFields = () => {
     setName('');
@@ -60,7 +63,7 @@ function CreateProductScreen() {
   
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{title:'Create Product'}}/>
+      <Stack.Screen options={{title: isUpdating ? 'Update Product' :'Create Product'}}/>
       <Image source={{ uri: image || defauPizzImage }} style={styles.image} resizeMode='contain'  />
       <Text style={styles.textButton} onPress={pickImage}>Select Image</Text>
     <Text style={styles.label}>Name</Text>
@@ -79,7 +82,7 @@ function CreateProductScreen() {
       onChangeText={setPrice}
       />
       <Text style={{color:'red'}}>{error}</Text>
-      <Button onPress={onCreate} text='Create'/>
+      <Button onPress={onCreate} text={isUpdating ? 'Update' :'Create'}/>
     </View>
   )
 }
