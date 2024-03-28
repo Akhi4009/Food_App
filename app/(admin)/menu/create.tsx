@@ -4,6 +4,7 @@ import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import { defauPizzImage } from '@/components/ProductListItem';
 import Colors from '@/constants/Colors';
+import { Stack } from 'expo-router';
 
 function CreateProductScreen() {
   const [name, setName] = useState('');
@@ -14,6 +15,7 @@ function CreateProductScreen() {
   const resetFields = () => {
     setName('');
     setPrice('');
+    setImage(null);
   }
 
   const pickImage = async () => {
@@ -58,8 +60,8 @@ function CreateProductScreen() {
   
   return (
     <View style={styles.container}>
-    
-      <Image source={{ uri: image || defauPizzImage }} style={styles.image}  />
+      <Stack.Screen options={{title:'Create Product'}}/>
+      <Image source={{ uri: image || defauPizzImage }} style={styles.image} resizeMode='contain'  />
       <Text style={styles.textButton} onPress={pickImage}>Select Image</Text>
     <Text style={styles.label}>Name</Text>
     <TextInput
