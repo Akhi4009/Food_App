@@ -1,10 +1,11 @@
 import Button from '@/components/Button'
 import React, { useState } from 'react'
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import { defauPizzImage } from '@/components/ProductListItem';
 import Colors from '@/constants/Colors';
 import { Stack, useLocalSearchParams } from 'expo-router';
+import { coolDownAsync } from 'expo-web-browser';
 
 function CreateProductScreen() {
   const [name, setName] = useState('');
@@ -59,6 +60,39 @@ function CreateProductScreen() {
     console.warn('Creating Product',name,price);
     resetFields();
   };
+
+  const onUpdate = () => {
+    if(!validateInput()){
+      return;
+    }
+
+    console.warn('Updating Product');
+  }
+
+  const onSubmit = () => { 
+    if(isUpdating){
+      onUpdate();
+    }else{
+      onCreate();
+    }
+  }
+
+  const onDelete = () => {
+    console.warn('Delete...')
+  }
+
+  const onConfirmDelete = () => {
+    Alert.alert('Confirm', 'Are you sure you want to delete this product',[
+      {
+        text: 'Cancel'
+      },
+      {
+        text: 'Delete',
+        style:'destructive',
+        onPress: onDelete,
+      }
+    ]);
+  }
   
   
   return (
@@ -82,7 +116,8 @@ function CreateProductScreen() {
       onChangeText={setPrice}
       />
       <Text style={{color:'red'}}>{error}</Text>
-      <Button onPress={onCreate} text={isUpdating ? 'Update' :'Create'}/>
+      <Button onPress={onSubmit} text={isUpdating ? 'Update' :'Create'}/>
+      {isUpdating && <Text onPress={onConfirmDelete} style={styles.textButton}>Delete</Text>}
     </View>
   )
 }
