@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import CartProvider from '@/provider/CartProvider';
+import AuthProvider from '@/provider/AuthProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,6 +51,7 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+     <AuthProvider>
       <CartProvider>
       <Stack>
         <Stack.Screen name="(admin)" options={{ headerShown: false }} />
@@ -58,7 +60,9 @@ function RootLayoutNav() {
         <Stack.Screen name="cart" options={{ presentation: 'modal' }} />
       </Stack>
       </CartProvider>
+     </AuthProvider>
     </ThemeProvider>
   );
 }
+
 
